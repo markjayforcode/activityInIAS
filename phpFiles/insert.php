@@ -2,6 +2,7 @@
 include "connection.php";
 
 //take values from form
+$userEmail = $_REQUEST['userEmail'];
 $userPass = $_REQUEST['userPass'];
 $firstName = $_REQUEST['firstName'];
 $lastName = $_REQUEST['lastName'];
