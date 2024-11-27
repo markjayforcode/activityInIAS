@@ -9,7 +9,6 @@ if(!isset($_SESSION['userEmail'])){
 
 include '../phpFiles/connection.php'; // Include database connection
 include '../phpFiles/adminfunctions.php';    // Include admin function
-
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +41,7 @@ include '../phpFiles/adminfunctions.php';    // Include admin function
      <div class="container content-container shadow-lg rounded-4 w-50"> <!-- Big white container sa gitna -->
      <div class="d-flex justify-content-between align-items-center">
       <h1>List of users</h1>
-      <a class="btn btn-light"> <i class="fa fa-plus"></i>Add new User </a>
+      <a class="btn btn-add" href="adminCreate.php"> <i class="fa fa-plus"></i>Add new User </a>
      </div>
         <table class="table table-color">
           <thead class="table-color">
@@ -64,6 +63,19 @@ include '../phpFiles/adminfunctions.php';    // Include admin function
               echo '<td>'.htmlspecialchars($account['firstName']) . '</td>';
               echo '<td>'.htmlspecialchars($account['lastName']) . '</td>';
               echo '<td>'.htmlspecialchars($account['adminRole']) . '</td>';
+              echo "<td>
+              <form action='../phpFiles/adminfunctions.php' method='POST' style='display:inline-block;'>
+                 <input type='hidden' name='action' value='delete'>
+                  <input type='hidden' name='userID' value='{$account['userID']}'>
+                  <button type='submit' class='btn btn-danger'>Delete</button>
+              </form>
+          </td>";
+          echo "<td>
+              <form action='adminUpdate.php' method='GET' style='display:inline-block;'>
+                  <input type='hidden' name='userID' value='{$account['userID']}'>
+                  <button type='submit' class='btn btn-success'>Update</button>
+              </form>
+          </td>";
              }
             ?>
           </tbody>
@@ -72,9 +84,6 @@ include '../phpFiles/adminfunctions.php';    // Include admin function
      </div>    
     </div>
     
-     
-          
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </body>

@@ -1,6 +1,29 @@
 <?php
 include "connection.php";
 
+// Check if the form was submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check the action type from a hidden input field
+    if (isset($_POST['action']) && $_POST['action'] === 'create') {
+        // Process create account
+        $userEmail = $_POST['userEmail'];
+        $userPass = $_POST['userPass'];
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $adminRole = $_POST['adminRole'];
+
+        createAccount($conn, $userEmail, $userPass, $firstName, $lastName, $adminRole);
+    } elseif (isset($_POST['action']) && $_POST['action'] === 'delete') {
+        // Process delete account
+        $userID = $_POST['userID'];
+
+        deleteAccount($conn, $userID);
+    }
+}
+
+
+
+
 //READ
 
 function fetchAccounts($conn){
@@ -21,4 +44,38 @@ $result->free(); //knowledge : freeing results are done tuwing SELECT to diminis
 return $accounts;
 
 }
+
+
+//CREATE
+
+function createAccount($conn, $userEmail, $userPass, $firstName, $lastName, $adminRole){
+    $sql = "INSERT INTO tblaccounts (userEmail, userPass, firstName, lastName, adminRole) VALUES ('$userEmail', '$userPass', '$firstName', '$lastName', '$adminRole')";  
+
+    if(mysqli_query($conn, $sql)){
+        echo "New account created successfully";
+        header("Location: ../htmlFiles/adminDashboard.php");
+        exit();
+    }else{
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+
+
+
+//DELETE
+
+function deleteAccount($conn, $userID){
+    $sql = "DELETE FROM tblaccounts WHERE userID = $userID";
+
+    if(mysqli_query($conn, $sql)){
+        echo "Account deleted successfully";
+        header("Location: ../htmlFiles/adminDashboard.php");
+        exit();
+    }else{
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    }
+}
+
 ?>
+
+

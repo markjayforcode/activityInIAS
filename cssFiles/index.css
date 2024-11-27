@@ -53,3 +53,7 @@ textarea {
 .table-color th, tr, td {
     background-color: #F2F3F4 !important; /* Slightly darker gray for header */
 }
+
+.btn-add{
+    background-color: #F2F3F4 !important; /* Slightly darker gray for header */
+}
