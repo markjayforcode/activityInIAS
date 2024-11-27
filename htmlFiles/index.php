@@ -48,8 +48,8 @@ include '../phpFiles/readcomments.php'; // Include fetchComments function
               ?>
                 </div>
                 <div class="col-6">
-                  <button type="button" class="btn w-100 modal-post" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <span class="float-start">Launch demo modal</span>
+                  <button type="button" class="btn w-100 modal-post shadow-none" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <span class="float-start">Share your thoughts here...</span>
                   </button>
                 </div>
                 <div class="col-3 d-flex justify-content-center align-items-center">
