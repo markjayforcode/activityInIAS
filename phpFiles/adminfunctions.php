@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-//READ
+//READ ACCOUNTS
 
 function fetchAccounts($conn){
 
@@ -44,6 +44,26 @@ $result->free(); //knowledge : freeing results are done tuwing SELECT to diminis
 return $accounts;
 
 }
+
+//READ POSTS
+function fetchPosts($conn){
+
+    $sql = "SELECT * FROM tblposts";
+    $result = $conn->query($sql);
+    
+    if($result === false){
+        die("Error fetching posts:" .$conn->error);
+    
+    }
+    
+    //fetch posts
+    $posts = $result->fetch_all(MYSQLI_ASSOC);
+    
+    $result->free(); //knowledge : freeing results are done tuwing SELECT to diminish memory usaage. avoid memory leaks
+    
+    return $posts;
+    
+    }
 
 
 //CREATE

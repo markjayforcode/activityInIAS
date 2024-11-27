@@ -9,6 +9,27 @@ if(!isset($_SESSION['userEmail'])){
 
 include '../phpFiles/connection.php'; // Include database connection
 include '../phpFiles/adminfunctions.php';    // Include admin function
+
+
+
+// Check if postID is provided for deletion
+if (isset($_POST['postID'])) {
+  $postID = $_POST['postID'];
+
+  // Prepare and execute the delete query
+  $sql = "DELETE FROM tblposts WHERE postID = ?";
+  if ($stmt = $conn->prepare($sql)) {
+      $stmt->bind_param("i", $postID);
+      $stmt->execute();
+      $stmt->close();
+  }
+
+  // Redirect to the same page to reflect changes
+  header("Location: adminDashboard.php");
+  exit();
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -37,8 +58,8 @@ include '../phpFiles/adminfunctions.php';    // Include admin function
                 <a class="nav-link" href="../phpFiles/logout.php">Logout</a>
             </div>
     </nav>
-    <div class="container-fluid d-flex justify-content-center align-items-center p-5">
-     <div class="container content-container shadow-lg rounded-4 w-50"> <!-- Big white container sa gitna -->
+    <div class="container-fluid d-flex justify-content-center align-items-center flex-column p-5">
+     <div class="container content-container shadow-lg rounded-4 w-50 mb-5  "> <!-- Big white container sa gitna -->
      <div class="d-flex justify-content-between align-items-center">
       <h1>List of users</h1>
       <a class="btn btn-add" href="adminCreate.php"> <i class="fa fa-plus"></i>Add new User </a>
@@ -80,7 +101,51 @@ include '../phpFiles/adminfunctions.php';    // Include admin function
             ?>
           </tbody>
         </table>
-  
+         
+        
+
+        
+     </div>    
+
+     <div class="container content-container shadow-lg rounded-4 w-50"> <!-- Big white container sa gitna -->
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>List of Posts</h1>  
+    </div>
+    <table class="table table-color">
+        <thead class="table-color">
+            <th scope="col">Post ID</th>
+            <th scope="col">User ID</th>
+            <th scope="col">Post Content</th>
+            <th scope="col">Post Date</th>
+            <th scope="col">Actions</th> <!-- For the delete button -->
+        </thead>
+        <tbody>
+            <?php
+            $posts = fetchPosts($conn); // Fetch posts using the function provided
+            foreach ($posts as $post) {
+                echo '<tr class="table-color">';
+                echo '<th scope="row">' . htmlspecialchars($post['postID']) . '</th>';
+                echo '<td>' . htmlspecialchars($post['userID']) . '</td>';
+                echo '<td>' . htmlspecialchars($post['postContent']) . '</td>';
+                echo '<td>' . htmlspecialchars($post['postDate']) . '</td>';
+                echo "<td>
+                    <form action='adminDashboard.php' method='POST' style='display:inline-block;'>
+                        <input type='hidden' name='postID' value='{$post['postID']}'>
+                        <button type='submit' class='btn btn-danger'>Delete</button>
+                    </form>
+                </td>";
+
+                echo "</tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
+
+         
+        
+
+        
      </div>    
     </div>
     
